@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+
+ <!--  ajax 邮箱验证 -->
+<package name="Userajax" extends="struts-default">
+		<action name="Userajax" class="com.baizhi.dangdang.action.UserajaxAction">
+		</action>
+	</package>
+	
+<!-- ajax 添加购物车 -->
+	<package name="cartItemajax" extends="struts-default">
+		<action name="cartItemajax" class="com.baizhi.dangdang.action.CartItemajaxAction">
+		</action>
+	</package>
+<!-- 主页面左兰 -->
+	<package name="category" extends="struts-default">
+		<action name="category" class="com.baizhi.dangdang.action.CategoryAction">
+			<result name="success">/main/category.jsp</result>
+		</action>
+	</package>
+	<!-- 主页面4个模块页面 -->
+	<package name="dmi" extends="struts-default">
+		<action name="product_*" class="com.baizhi.dangdang.action.dmiproductAction"
+			method="{1}">
+			<result name="success">/main/hotBoard.jsp</result>
+			<result name="recomOK">/main/recommend.jsp</result>
+			<result name="newOK">/main/new.jsp</result>
+			<result name="hotOK">/main/hot.jsp</result>
+		</action>
+	</package>
+	<!-- 二级页面 -->
+	<package name="Second" extends="struts-default">
+		<action name="SecondCategory" class="com.baizhi.dangdang.action.SecondCategoryAction">
+			<result name="success">/main/book_list.jsp</result>
+		</action>
+	</package>
+	<!-- 商品详情页 -->
+	<package name="ProductAll" extends="struts-default">
+		<action name="ProductAll" class="com.baizhi.dangdang.action.ProductAllAction">
+			<result name="success">/main/book_detail.jsp</result>
+		</action>
+	</package>
+
+	<!-- 添加购物车 -->
+	<package name="cartItem" extends="struts-default">
+		<action name="cartItem" class="com.baizhi.dangdang.action.CartItemAction">
+			<result name="success" type="redirect">/cart/cart_list.jsp</result>
+		</action>
+	</package>
+	<!-- 购物车变更数量 -->
+	<package name="cartChange" extends="struts-default">
+		<action name="cartChange" class="com.baizhi.dangdang.action.CartChangeAction">
+			<result name="success" type="redirect">/cart/cart_list.jsp</result>
+		</action>
+	</package>
+	<!-- 删除 -->
+	<package name="Delete" extends="struts-default">
+		<action name="delete" class="com.baizhi.dangdang.action.deleteAction">
+			<result name="success" type="redirect">
+				/cart/cart_list.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 恢复 -->
+	<package name="recover" extends="struts-default">
+		<action name="Recover" class="com.baizhi.dangdang.action.RecoverAction">
+			<result name="success" type="redirect">/cart/cart_list.jsp</result>
+		</action>
+	</package>
+	<!-- 验证码 -->
+	<package name="code" extends="struts-default">
+		<action name="code" class="com.baizhi.dangdang.action.CodeAction"></action>
+	</package>
+	<!-- 登录 /注册 -->
+	<package name="user" extends="struts-default" namespace="/user">
+		<action name="user_*" class="com.baizhi.dangdang.action.UserAction"
+			method="{1}">
+			<result name="success" type="redirect">/main/main.jsp</result>
+			<result name="loginOK" type="redirect">/user/login_form.jsp</result>
+			<result name="isOK" type="redirectAction">
+				<param name="namespace">/Address</param>
+			<param name="actionName">Address_queryByUserId</param>
+			</result>
+			<result name="registerror" type="redirect">/user/register_form.jsp</result>
+			<result name="registOK" type="redirect">/user/verify_form.jsp</result>
+		</action>
+	</package>
+	<!-- 登出 -->
+	<package name="Exit" extends="struts-default">
+		<action name="Exit" class="com.baizhi.dangdang.action.ExitAction">
+			<result name="success" type="redirect">/main/main.jsp</result>
+		</action>
+	</package>
+	<!-- 填写地址 -->
+	<package name="Address" extends="struts-default" namespace="/Address">
+		<action name="Address_*" class="com.baizhi.dangdang.action.AddressAction" method="{1}">
+			 <result name="ok">/order/address_form.jsp</result>
+			<result name="success" type="redirectAction">
+			<param name="namespace" >/order</param>
+			<param name="actionName">order_addOrder</param>
+			</result>
+			</action>
+</package>
+<!-- ajax -->
+<package name="p" extends="struts-default" namespace="/p">
+		<action name="Address_*" class="com.baizhi.dangdang.action.AddressajaxAction" method="queryByUserId">
+		</action>
+</package>
+
+	<!-- 增加订单 -->
+	<package name="order" extends="struts-default" namespace="/order">
+		<action name="order_*" class="com.baizhi.dangdang.action.OrderAction" method="{1}">
+		<result name="error" type="redirect">/user/login_form.jsp</result>
+		<result name="success" type="redirect">/order/order_ok.jsp</result>
+		<result name="ok" type="redirectAction">
+			<param name="namespace">/Address</param>
+			<param name="actionName">Address_queryByUserId</param>
+		</result>
+			
+		</action>
+	</package>
+</struts>

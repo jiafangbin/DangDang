@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dangdang.dao.CategoryDAO">
+<resultMap type="Category" id="category">
+		<id column="fid" property="id"/>
+		<result column="fclassify" property="classify"/>
+		<result column="fcount" property="count"/>
+		<collection property="list" ofType="Category">
+		<id column="sid" property="id"/>
+		<result column="sclassify" property="classify"/>
+		<result column="scount" property="count"/>
+		</collection>
+</resultMap>
+<select id="findAll" resultMap="category">
+ select f.id fid,f.classify fclassify,f.count fcount,s.id sid,s.classify sclassify,s.count scount from d_category f join d_category s on f.id=s.parent_id 
+</select>
+
+<select id="findCateById" resultMap="category" parameterType="String">
+select f.id fid,f.classify fclassify,f.count fcount,s.id sid,s.classify sclassify,s.count scount from d_category f join d_category s on f.id=s.parent_id where f.id=#{id}
+</select>
+
+</mapper>

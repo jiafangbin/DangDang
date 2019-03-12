@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dangdang.dao.ProductDAO">
+<!-- <resultMap type="Product" id="rm1">
+		<id column="pid" property="id"/>
+		<result column="pname" property="name"/>
+		<result column="pcategory_id" property="category_id"/>
+		<collection property="list" ofType="Category">
+		<id column="cid" property="id"/>
+		<result column="cclassify" property="classify"/>
+		</collection>
+</resultMap> -->
+<!-- 热卖新书 -->
+
+<select id="findHotNewProduct" resultType="Product">
+<![CDATA[
+select * from(select p.*,rownum rm from d_product p order by add_time,sales desc) where rm<=8 
+]]>
+</select>
+<!--推荐好书  -->
+
+ <select id="findRecommendProduct" resultType="Product">
+<![CDATA[
+	select * from(select p.*,rownum rm from d_product p order by recommendid desc) where rm<=2
+]]>
+</select> 
+<!-- 最新上架 -->
+<select id="findNewProduct" resultType="Product">
+  <![CDATA[
+  	select * from(select p.*,rownum rm from d_product p order by add_time desc) where rm<=8
+]]>
+</select>
+<select id="findHotProduct" resultType="Product">
+  <![CDATA[
+	select * from d_product where sales>0 order by sales desc 
+]]>
+</select>
+<!-- 一级页面展示图书 --> 
+<select id="findFirst" resultType="Product" parameterType="String">
+	select p.* from d_category c join
+  d_product p on c.id=p.category_id where c.id=#{sid}
+</select>
+<!-- 二级页面展示图书 -->
+<select id="findSecond" resultType="Product" parameterType="String">
+	select p.*  from d_category c join  d_product p on c.id=p.category_id
+where c.parent_id=#{id}
+</select>
+<!-- 详情页展示图书 根据Id添加到购物车-->
+<select id="findAll" parameterType="String" resultType="Product">
+select * from  d_product where id=#{id}
+</select>
+<!-- 每页显示的图书 -->
+<select id="getAllProduct" resultType="Product">
+ select * from ( select p.*,rownum rm from d_category c join  d_product p on c.id=p.category_id where 
+ 	<if test="sid==null">c.parent_id=#{fid}</if>
+ 	<if test="sid!=null">c.id=#{sid}</if>
+ 	) 
+   where rm between #{start} and #{end}
+
+</select>
+<!-- 获取总条数 -->
+<select id="getPageTotalCount" resultType="java.lang.Integer">
+  select count(*) from d_category c join  d_product p on c.id=p.category_id where
+  <if test="sid==null">c.parent_id=#{fid}</if>
+  <if test="sid!=null">c.id=#{sid}</if>
+</select>
+</mapper>

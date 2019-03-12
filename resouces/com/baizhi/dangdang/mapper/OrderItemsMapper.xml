@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dangdang.dao.OrderItemsDAO">
+<insert id="addOrderItems" parameterType="OrderItems">
+insert into D_ORDERITEMS values(#{id},#{subtotal},#{OrderId},#{count})
+</insert>
+</mapper>

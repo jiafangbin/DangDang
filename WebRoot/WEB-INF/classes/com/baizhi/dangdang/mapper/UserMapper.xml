@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dangdang.dao.UserDAO">
+<!-- 登录 -->
+<select id="findByEmail" resultType="User">
+select * from d_user where email=#{email}
+</select>
+<!-- 注册 -->
+<insert id="InsertUser" parameterType="User">
+insert into d_user values(#{id},#{email},#{username},#{password},sysdate,#{salt})
+</insert>
+</mapper>
